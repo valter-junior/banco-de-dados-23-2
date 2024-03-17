@@ -14,3 +14,4 @@
 - SQL
 
 ## Link para Slide
+https://docs.google.com/presentation/d/1UhzszgUkLmyzm8SD5BgTS5OoZBl1CxXg4_te0Llt7Ks/edit#slide=id.p1
