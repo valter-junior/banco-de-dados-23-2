@@ -77,6 +77,7 @@ INSERT INTO DESCONTO (COD_DESC, VALOR) VALUES ('DESC01', 15);
 INSERT INTO AUTOR (MAT, NOME, NACIONALIDADE) VALUES ('0123456789', 'Fernando Pessoa', 'Portuguesa');
 INSERT INTO AUTOR (MAT, NOME, NACIONALIDADE) VALUES ('0003456789', 'Robert Louis Steveson', 'Escocesa');
 INSERT INTO AUTOR (MAT, NOME, NACIONALIDADE) VALUES ('0000056789', 'Machado de Assis', 'Brasileira');
+INSERT INTO AUTOR (MAT, NOME, NACIONALIDADE) VALUES ('0800036742', 'Robson Fidalgo', 'Brasileira');
 
 
 -- ///////////////////////////// Inserir dados na tabela LIVRO /////////////////////////////
