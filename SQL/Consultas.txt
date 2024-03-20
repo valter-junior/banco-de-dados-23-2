@@ -105,3 +105,21 @@ BEGIN
     FROM COMPRA
     WHERE ID_CLIENTE = id_cliente_param;
 END;
+
+
+-- Function com SQL Embutido Consultar os n autores com livros mais vendidos 
+-- o parametro é o top_n onde pode ser escolhido a quantidade de autores a ser premiado
+
+CREATE FUNCTION premiar_autores(top_n INT) RETURNS TABLE (nome_autor VARCHAR(100), total_vendas INT) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT A.NOME, COUNT(*) AS total_vendas
+    FROM AUTOR A
+    INNER JOIN ESCREVE E ON A.MAT = E.MAT
+    INNER JOIN LIVRO L ON E.ISBN = L.ISBN
+    INNER JOIN COMPRA C ON L.ISBN = C.ISBN
+    GROUP BY A.NOME
+    ORDER BY total_vendas DESC
+    LIMIT top_n;
+END;
+
