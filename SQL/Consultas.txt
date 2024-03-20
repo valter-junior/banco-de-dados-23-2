@@ -93,3 +93,15 @@ FROM PESSOAFISICA
 UNION
 SELECT RAZAO_SOCIAL, CNPJ 
 FROM PESSOAJURIDICA;
+
+-- PROCEDURE - CONTAR COMPRAS POR CLIENTE
+CREATE OR REPLACE PROCEDURE contar_compras_por_cliente(
+    id_cliente_param IN VARCHAR2,
+    total_compras OUT INT)
+AS
+BEGIN
+    SELECT COUNT(*)
+    INTO total_compras
+    FROM COMPRA
+    WHERE ID_CLIENTE = id_cliente_param;
+END;
