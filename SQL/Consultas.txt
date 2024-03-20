@@ -17,9 +17,9 @@ INNER JOIN LIVRO L ON E.ISBN = L.ISBN;
 
 -- JUNÇÃO EXTERNA
 SELECT A.NOME, L.TITULO
-FROM AUTOR A
-LEFT OUTER JOIN ESCREVE E ON A.MAT = E.MAT
-LEFT OUTER JOIN LIVRO L ON E.ISBN = L.ISBN;
+FROM LIVRO L
+LEFT OUTER JOIN ESCREVE E ON  L.ISBN = E.ISBN
+LEFT OUTER JOIN LIVRO L ON E.MAT = A.MAT ;
 
 -- -- SEMI JUNÇÃO
  SELECT L.TITULO
@@ -122,4 +122,43 @@ BEGIN
     ORDER BY total_vendas DESC
     LIMIT top_n;
 END;
+
+-- Função com SQL Embutido para criar um livro e inserir um genero:
+CREATE OR REPLACE PROCEDURE adicionarLivro(
+    p_ISBN IN VARCHAR2,
+    p_TITULO IN VARCHAR2,
+    p_GENERO IN VARCHAR2)
+IS
+BEGIN
+    -- Adiciona o livro à tabela LIVRO
+    INSERT INTO LIVRO (ISBN, TITULO)
+    VALUES (p_ISBN, p_TITULO);
+    -- Adiciona o gênero à tabela GENERO
+    INSERT INTO GENERO (ISBN, GENERO)
+    VALUES (p_ISBN, p_GENERO);
+    -- Para garantir que as mudanças sejam salvas
+    COMMIT;
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Tratamento de erros, se necessário
+        ROLLBACK; -- Desfaz as mudanças em caso de erro
+        RAISE; -- Propaga o erro para o chamador
+END adicionarLivro;
+/
+BEGIN
+    adicionarLivro('1234567890123', 'Título do Livro', 'Ficção Científica');
+END;
+/
+Consultar os livros escritos por autores brasileiros pelo genero:
+-- Seleciona ISBNs de livros do gênero 'Romance'
+SELECT L.ISBN
+FROM LIVRO L
+JOIN GENERO G ON L.ISBN = G.ISBN
+WHERE G.GENERO = 'Romance'
+INTERSECT
+-- Seleciona ISBNs de livros escritos por autores brasileiros
+SELECT E.ISBN
+FROM ESCREVE E
+JOIN AUTOR A ON E.MAT = A.MAT
+WHERE A.NACIONALIDADE = 'Brasileira';
 
